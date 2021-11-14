@@ -7,7 +7,7 @@ function App() {
     async function init() {
       await initPyodideAndLoadPydicom()
       const data = await remoteFunction();
-      console.log({ data })
+      console.log({ data }); // it might be Comlink proxy object if using Comlink.transfer
     }
     init();
   }, []);
