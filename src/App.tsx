@@ -5,6 +5,7 @@ function App() {
   useEffect(() => {
 
     async function init() {
+      console.log("init")
       await initPyodideAndLoadPydicom()
       const data = await remoteFunction();
       console.log({ data }); // it might be Comlink proxy object if using Comlink.transfer

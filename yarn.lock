@@ -1931,6 +1931,11 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
+"@types/sharedworker@^0.0.60":
+  version "0.0.60"
+  resolved "https://registry.yarnpkg.com/@types/sharedworker/-/sharedworker-0.0.60.tgz#06d0dc75e8b8c81e9e912ffd0d49786a9395785d"
+  integrity sha512-jtXSWmKSZC9/AHQ7r0Putp10SeekJq6pPe35iuqZMLN9nhWFP7Ivbkj++Njl+RUhCEzQJERhoQ2dIpEshXFVag==
+
 "@types/source-list-map@*":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"

@@ -1,17 +1,19 @@
 import * as Comlink from 'comlink'
-
-declare const self: DedicatedWorkerGlobalScope & { pyodide: any };
-export default {} as typeof Worker & { new(): Worker };
+// SharedWorkerGlobalScope
+declare const self: SharedWorkerGlobalScope & { pyodide: any };
+export default {} as typeof SharedWorker & { new(): SharedWorker };
 declare var loadPyodide: any;
 
 const baseURL = "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js";
 importScripts(baseURL);
 
 const initPyodideAndLoadPydicom = async () => {
+  console.log("initPyodideAndLoadPydicom")
   self.pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/" });
 };
 
 export async function remoteFunction(): Promise<any> {
+  console.log("remoteFunction")
   /** working: directly return ArrayBuffer or using Comlink.transfer*/
   // const data = new ArrayBuffer(8);
   // return data; 
@@ -20,6 +22,10 @@ export async function remoteFunction(): Promise<any> {
   /** get Python NumPy ndarray from pyodide */
   const pythonCode = `
     import numpy as np
+    print("start")
+    if __name__ == '__main__':
+      print("in main")
+    print("end")
     data = np.arange(15)
     data
   `;
@@ -38,7 +44,7 @@ export async function remoteFunction(): Promise<any> {
 
   // case2 (transfer): not work
   // Uncaught (in promise) DOMException: Failed to execute 'postMessage' on 'DedicatedWorkerGlobalScope': ArrayBuffer is not detachable and could not be cloned.
-  return Comlink.transfer(data, [data.buffer])
+  // return Comlink.transfer(data, [data.buffer])
 
   // case3: using Comlink.proxy, e.g. return Comlink.proxy(dicomObj), dicomObj is PyProxy object, 
   // then just using "await image.modality" in main (thread) js to get the attribute string value
@@ -52,4 +58,21 @@ export const api = {
   remoteFunction
 };
 
-Comlink.expose(api);
+// onmessage = function (oEvent) {
+//   postMessage("Hi " + oEvent.data);
+// };
+
+
+/**
+ * When a connection is made into this shared worker, expose `obj`
+ * via the connection `port`.
+ */
+onconnect = function (event: any) {
+  console.log("onconnect")
+  const port = event.ports[0];
+  Comlink.expose(api, port);
+  port.start();
+};
+
+
+// Comlink.expose(api);

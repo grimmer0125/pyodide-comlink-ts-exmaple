@@ -10,6 +10,7 @@ module.exports = {
       use: {
         loader: 'worker-loader',
         options: {
+          worker: "SharedWorker",
           // Use directory structure & typical names of chunks produces by "react-scripts"
           filename: 'static/js/[name].[contenthash:8].js',
         },
